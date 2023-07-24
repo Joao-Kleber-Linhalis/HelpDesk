@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import com.jk.helpdesk.domain.Cliente;
+import com.jk.helpdesk.domain.dto.ClienteDTO;
 import com.jk.helpdesk.domain.dto.TecnicoDTO;
 import com.jk.helpdesk.repositories.ChamadoRepository;
 import com.jk.helpdesk.services.exceptions.ObjectNotFoundException;
@@ -29,13 +31,25 @@ public class TecnicoService {
 	public TecnicoDTO findById(Integer id) {
 		Optional<Tecnico> obj = repository.findByIdAndStatus(id,true);
 		Optional<TecnicoDTO> tecnicoDTO = obj.map(TecnicoDTO::new);
-		return tecnicoDTO.orElseThrow(() ->new ObjectNotFoundException("Objeto não encontrado! Id: " + id + " status: " + obj.get().getStatus()));
+		return tecnicoDTO.orElseThrow(() ->new ObjectNotFoundException(findByIdDisable(id) + " Id: " + id));
+	}
+
+	public String findByIdDisable(Integer id) {
+		Optional<Tecnico> obj = repository.findByIdAndStatus(id,false);
+		Optional<TecnicoDTO> tecnicoDTO = obj.map(TecnicoDTO::new);
+		if (tecnicoDTO.isPresent()){
+			return "Objeto atualmente desativado";
+		}
+		else {
+			return "Objeto não encontrado";
+		}
 	}
 
 	public List<TecnicoDTO> findAll() {
 		List<Tecnico> tecnicoList = repository.findAll();
 		return tecnicoList.stream().map(TecnicoDTO::new).toList();
 	}
+
 
 	public List<TecnicoDTO> findAllByStatus(boolean status){
 		List<Tecnico> tecnicoList = repository.findByStatus(status);
