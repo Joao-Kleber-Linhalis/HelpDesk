@@ -10,6 +10,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.jk.helpdesk.domain.enums.Perfil;
 
 import jakarta.persistence.*;
+import org.hibernate.validator.constraints.br.CPF;
 
 @Entity
 public abstract class Pessoa implements Serializable {
@@ -20,13 +21,28 @@ public abstract class Pessoa implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	protected Integer id;
 	protected String nome;
-	
+
+	//@CPF
 	@Column(unique = true , length = 11)
 	protected String cpf;
 	@Column(unique = true)
 	protected String email;
 	protected String senha;
-	
+
+	protected Boolean status = true;
+
+	public Boolean getStatus() {
+		return status;
+	}
+
+	public void desativarPessoa() {
+		this.status = false;
+	}
+
+	public void ativarPessoa() {
+		this.status = true;
+	}
+
 	@ElementCollection(fetch = FetchType.EAGER)
 	@CollectionTable(name = "PERFIS")
 	protected Set<Integer> perfis = new HashSet<>();

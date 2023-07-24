@@ -30,11 +30,36 @@ public class TecnicoController {
 		return ResponseEntity.ok().body(service.findAll());
 	}
 
+	@GetMapping
+	public ResponseEntity<List<TecnicoDTO>> findAllByStatus(@RequestParam("status") String status) {
+		if ("ativos".equals(status)) {
+			return ResponseEntity.ok().body(service.findAllByStatus(true));
+		} else if ("inativos".equals(status)) {
+			return ResponseEntity.ok().body(service.findAllByStatus(false));
+		} else {
+			// Você pode tratar aqui o caso em que o valor do parâmetro é inválido
+			return ResponseEntity.badRequest().build();
+		}
+	}
+
 	@PostMapping
 	public ResponseEntity<TecnicoDTO> create(@Valid @RequestBody TecnicoDTO dto){
-		TecnicoDTO tecnicoDTOdto = service.create(dto);
-		URI uri = ServletUriComponentsBuilder.fromCurrentRequestUri().path("/{id}").buildAndExpand(tecnicoDTOdto.getId()).toUri();
+		dto.setId(null);
+		TecnicoDTO tecnicoDTO = service.create(dto);
+		URI uri = ServletUriComponentsBuilder.fromCurrentRequestUri().path("/{id}").buildAndExpand(tecnicoDTO.getId()).toUri();
 		return ResponseEntity.created(uri).build();
+	}
+
+	@PutMapping(value = "/{id}")
+	public ResponseEntity<TecnicoDTO> update(@PathVariable Integer id,@Valid @RequestBody TecnicoDTO dto){
+		//TecnicoDTO tecnicoDTO = service.update(id,dto);
+		return ResponseEntity.ok().body(service.update(id,dto));
+	}
+
+	@DeleteMapping(value = "/{id}")
+	public ResponseEntity<TecnicoDTO> delete(@PathVariable Integer id){
+		service.delete(id);
+		return ResponseEntity.noContent().build();
 	}
 	
 }
