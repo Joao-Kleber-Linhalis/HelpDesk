@@ -8,7 +8,8 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.jk.helpdesk.domain.enums.Prioridade;
 import com.jk.helpdesk.domain.enums.Status;
 
-import jakarta.persistence.*;
+
+import javax.persistence.*;
 
 @Entity
 public class Chamado implements Serializable {

@@ -7,6 +7,7 @@ import com.jk.helpdesk.repositories.ClienteRepository;
 import com.jk.helpdesk.services.exceptions.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -24,6 +25,8 @@ public class ClienteService {
 
 	@Autowired
 	private PessoaService pessoaService;
+	@Autowired
+	private BCryptPasswordEncoder encoder;
 	
 	public ClienteDTO findById(Integer id) {
 		Optional<Cliente> obj = repository.findByIdAndStatus(id,true);
@@ -44,16 +47,18 @@ public class ClienteService {
 
 	public List<ClienteDTO> findAll() {
 		List<Cliente> clienteList = repository.findAll();
-		return clienteList.stream().map(ClienteDTO::new).toList();
+		return clienteList.stream().map(ClienteDTO::new).collect(Collectors.toList());
 	}
 
 	public List<ClienteDTO> findAllByStatus(boolean status){
 		List<Cliente> clienteList = repository.findByStatus(status);
-		return clienteList.stream().map(ClienteDTO::new).toList();
+		return clienteList.stream().map(ClienteDTO::new).collect(Collectors.toList());
 	}
 
 	public ClienteDTO create(ClienteDTO dto) {
 		pessoaService.validarCpfeEmail(dto.getCpf(),dto.getEmail(),dto.getId());
+		dto.setId(null);
+		dto.setSenha(encoder.encode(dto.getSenha()));
 		Cliente cliente = new Cliente(dto);
 		return new ClienteDTO(repository.save(cliente));
 	}

@@ -8,7 +8,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.jk.helpdesk.domain.dto.ClienteDTO;
 import com.jk.helpdesk.domain.enums.Perfil;
 
-import jakarta.persistence.*;
+import javax.persistence.*;
 
 @Entity
 public class Cliente extends Pessoa { 

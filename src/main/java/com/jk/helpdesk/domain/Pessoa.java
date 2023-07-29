@@ -9,7 +9,7 @@ import java.util.stream.Collectors;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.jk.helpdesk.domain.enums.Perfil;
 
-import jakarta.persistence.*;
+import javax.persistence.*;
 import org.hibernate.validator.constraints.br.CPF;
 
 @Entity

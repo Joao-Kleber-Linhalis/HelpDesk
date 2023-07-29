@@ -10,13 +10,14 @@ import com.jk.helpdesk.domain.enums.Prioridade;
 import com.jk.helpdesk.domain.enums.Status;
 import com.jk.helpdesk.repositories.ChamadoRepository;
 import com.jk.helpdesk.services.exceptions.ObjectNotFoundException;
-import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.validation.Valid;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class ChamadoService {
@@ -36,7 +37,7 @@ public class ChamadoService {
 
     public List<ChamadoDTO> findAll() {
         List<Chamado> chamadoList = chamadoRepository.findAll();
-        return chamadoList.stream().map(ChamadoDTO::new).toList();
+        return chamadoList.stream().map(ChamadoDTO::new).collect(Collectors.toList());
     }
 
     public ChamadoDTO create(@Valid ChamadoDTO chamadoDTO) {

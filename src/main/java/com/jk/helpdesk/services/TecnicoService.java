@@ -11,6 +11,7 @@ import com.jk.helpdesk.repositories.ChamadoRepository;
 import com.jk.helpdesk.services.exceptions.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.jk.helpdesk.domain.Tecnico;
@@ -27,6 +28,8 @@ public class TecnicoService {
 
 	@Autowired
 	private PessoaService pessoaService;
+	@Autowired
+	private BCryptPasswordEncoder encoder;
 	
 	public TecnicoDTO findById(Integer id) {
 		Optional<Tecnico> obj = repository.findByIdAndStatus(id,true);
@@ -47,17 +50,19 @@ public class TecnicoService {
 
 	public List<TecnicoDTO> findAll() {
 		List<Tecnico> tecnicoList = repository.findAll();
-		return tecnicoList.stream().map(TecnicoDTO::new).toList();
+		return tecnicoList.stream().map(TecnicoDTO::new).collect(Collectors.toList());
 	}
 
 
 	public List<TecnicoDTO> findAllByStatus(boolean status){
 		List<Tecnico> tecnicoList = repository.findByStatus(status);
-		return tecnicoList.stream().map(TecnicoDTO::new).toList();
+		return tecnicoList.stream().map(TecnicoDTO::new).collect(Collectors.toList());
 	}
 
 	public TecnicoDTO create(TecnicoDTO dto) {
 		pessoaService.validarCpfeEmail(dto.getCpf(),dto.getEmail(),dto.getId());
+		dto.setId(null);
+		dto.setSenha(encoder.encode(dto.getSenha()));
 		Tecnico tecnico = new Tecnico(dto);
 		return new TecnicoDTO(repository.save(tecnico));
 	}
