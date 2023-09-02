@@ -1,6 +1,5 @@
 package com.jk.helpdesk.controllers;
 
-import com.jk.helpdesk.domain.Chamado;
 import com.jk.helpdesk.domain.dto.ChamadoDTO;
 import com.jk.helpdesk.services.ChamadoService;
 import org.springframework.beans.factory.annotation.Autowired;

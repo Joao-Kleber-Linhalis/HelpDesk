@@ -10,7 +10,6 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.jk.helpdesk.domain.enums.Perfil;
 
 import javax.persistence.*;
-import org.hibernate.validator.constraints.br.CPF;
 
 @Entity
 public abstract class Pessoa implements Serializable {

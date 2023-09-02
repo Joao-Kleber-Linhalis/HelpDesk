@@ -2,7 +2,6 @@ package com.jk.helpdesk.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jk.helpdesk.domain.dto.CredenciaisDTO;
-import org.apache.catalina.User;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;

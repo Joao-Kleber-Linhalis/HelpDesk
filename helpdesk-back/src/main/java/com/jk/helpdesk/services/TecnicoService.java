@@ -4,8 +4,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import com.jk.helpdesk.domain.Cliente;
-import com.jk.helpdesk.domain.dto.ClienteDTO;
 import com.jk.helpdesk.domain.dto.TecnicoDTO;
 import com.jk.helpdesk.repositories.ChamadoRepository;
 import com.jk.helpdesk.services.exceptions.ObjectNotFoundException;

@@ -1,6 +1,5 @@
 package com.jk.helpdesk.repositories;
 
-import com.jk.helpdesk.domain.Tecnico;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.jk.helpdesk.domain.Cliente;
