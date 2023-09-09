@@ -7,8 +7,6 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 @SpringBootApplication
 @EnableWebSecurity
 public class HelpdeskApplication {
-	
-	
 
 	public static void main(String[] args) {
 		SpringApplication.run(HelpdeskApplication.class, args);
