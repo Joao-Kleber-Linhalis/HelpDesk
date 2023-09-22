@@ -1,12 +1,13 @@
 package com.jk.helpdesk.services;
 
+import com.jk.helpdesk.domain.Chamado;
 import com.jk.helpdesk.domain.Cliente;
 import com.jk.helpdesk.domain.dto.ClienteDTO;
 import com.jk.helpdesk.repositories.ChamadoRepository;
 import com.jk.helpdesk.repositories.ClienteRepository;
 import com.jk.helpdesk.services.exceptions.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
+import com.jk.helpdesk.services.exceptions.DataIntegrityViolationException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -29,29 +30,15 @@ public class ClienteService {
 	private BCryptPasswordEncoder encoder;
 	
 	public ClienteDTO findById(Integer id) {
-		Optional<Cliente> obj = repository.findByIdAndStatus(id,true);
+		Optional<Cliente> obj = repository.findById(id);
 		Optional<ClienteDTO> clienteDTO = obj.map(ClienteDTO::new);
-		return clienteDTO.orElseThrow(() ->new ObjectNotFoundException(findByIdDisable(id) + " Id: " + id));
+		return clienteDTO.orElseThrow(() ->new ObjectNotFoundException("Objeto não encontrado! Id: " + id));
 	}
 
-	public String findByIdDisable(Integer id) {
-		Optional<Cliente> obj = repository.findByIdAndStatus(id,false);
-		Optional<ClienteDTO> clienteDTO = obj.map(ClienteDTO::new);
-		if (clienteDTO.isPresent()){
-			return "Objeto atualmente desativado";
-		}
-		else {
-			return "Objeto não encontrado";
-		}
-	}
+
 
 	public List<ClienteDTO> findAll() {
 		List<Cliente> clienteList = repository.findAll();
-		return clienteList.stream().map(ClienteDTO::new).collect(Collectors.toList());
-	}
-
-	public List<ClienteDTO> findAllByStatus(boolean status){
-		List<Cliente> clienteList = repository.findByStatus(status);
 		return clienteList.stream().map(ClienteDTO::new).collect(Collectors.toList());
 	}
 
@@ -73,16 +60,12 @@ public class ClienteService {
 	}
 
 	public void delete(Integer id) {
-		ClienteDTO clienteDTO = findById(id);
-		List<Integer> chamados = chamadoRepository.findChamadoIdsByPessoaId(clienteDTO.getId());
-		if (!chamados.isEmpty()) {
-			String chamadosIds = chamados.stream()
-					.map(String::valueOf)
-					.collect(Collectors.joining(", "));
-			throw new DataIntegrityViolationException("Cliente possui " + chamados.size() + " chamados ainda em abertos. IDs dos chamados: " + chamadosIds);
+		findById(id);
+		Optional<Cliente> obj = repository.findById(id);
+		if (obj.get().getChamados().size() > 0) {
+			throw new DataIntegrityViolationException("Cliente possui ordens de serviço e não pode ser deletado!");
 		}
-		clienteDTO.desativarPessoa();
-		Cliente cliente = new Cliente(clienteDTO);
-		repository.save(cliente);
+
+		repository.deleteById(id);
 	}
 }

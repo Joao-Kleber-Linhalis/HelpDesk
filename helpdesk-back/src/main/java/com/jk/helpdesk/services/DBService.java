@@ -55,7 +55,7 @@ public class DBService {
 
 		Cliente cli4 = new Cliente("Maria Oliveira", "222222222", "maria.oliveira@example.com", encoder.encode("password"));
 
-		Chamado c4 = new Chamado(Prioridade.ALTA, Status.ABERTO, "Chamado 04", "Quarto Chamado", tec4, cli4);
+		Chamado c4 = new Chamado(Prioridade.ALTA, Status.ABERTO, "Chamado 04", "Quarto Chamado", tec3, cli4);
 
 		tecnicoRepository.saveAll(Arrays.asList(tec1, tec2, tec3, tec4));
 		clienteRepository.saveAll(Arrays.asList(cli1, cli2, cli3, cli4));

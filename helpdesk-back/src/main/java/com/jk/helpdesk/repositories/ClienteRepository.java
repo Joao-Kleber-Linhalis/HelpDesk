@@ -10,8 +10,5 @@ import java.util.Optional;
 
 public interface ClienteRepository extends JpaRepository<Cliente, Integer> {
 
-    @Query("SELECT t FROM Cliente t WHERE t.status = :status")
-    List<Cliente> findByStatus(boolean status);
 
-    Optional<Cliente> findByIdAndStatus(Integer id, boolean status);
 }

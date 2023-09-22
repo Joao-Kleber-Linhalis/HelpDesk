@@ -33,7 +33,6 @@ public class Cliente extends Pessoa {
 		this.senha = obj.getSenha();
 		this.perfis = obj.getPerfis().stream().map(x -> x.getCodigo()).collect(Collectors.toSet());
 		this.dataCriacao = obj.getDataCriacao();
-		this.status = obj.getStatus();
 	}
 
 	public Cliente(String nome, String cpf, String email, String senha) {

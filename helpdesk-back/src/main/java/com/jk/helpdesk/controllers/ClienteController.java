@@ -28,17 +28,6 @@ public class ClienteController {
 		return ResponseEntity.ok().body(service.findAll());
 	}
 
-	@GetMapping("/")
-	public ResponseEntity<List<ClienteDTO>> findAllByStatus(@RequestParam("status") String status) {
-		if ("ativos".equals(status)) {
-			return ResponseEntity.ok().body(service.findAllByStatus(true));
-		} else if ("inativos".equals(status)) {
-			return ResponseEntity.ok().body(service.findAllByStatus(false));
-		} else {
-			// Você pode tratar aqui o caso em que o valor do parâmetro é inválido
-			return ResponseEntity.badRequest().build();
-		}
-	}
 
 	@PostMapping
 	public ResponseEntity<ClienteDTO> create(@Valid @RequestBody ClienteDTO dto){

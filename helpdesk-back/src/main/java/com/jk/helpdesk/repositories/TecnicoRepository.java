@@ -10,8 +10,6 @@ import java.util.Optional;
 
 public interface TecnicoRepository extends JpaRepository<Tecnico, Integer> {
 
-    @Query("SELECT t FROM Tecnico t WHERE t.status = :status")
-    List<Tecnico> findByStatus(boolean status);
 
-    Optional<Tecnico> findByIdAndStatus(Integer id, boolean status);
+
 }

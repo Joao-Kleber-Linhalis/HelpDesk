@@ -16,7 +16,6 @@ public class ClienteDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 	protected Integer id;
 
-	protected Boolean status = true;
 
 	@NotNull(message = "O campo NOME é requerido")
 	protected String nome;
@@ -44,24 +43,12 @@ public class ClienteDTO implements Serializable {
 		this.senha = obj.getSenha();
 		this.perfis = obj.getPerfis().stream().map(x -> x.getCodigo()).collect(Collectors.toSet());
 		this.dataCriacao = obj.getDataCriacao();
-		this.status = obj.getStatus();
 	}
 
 	public Integer getId() {
 		return id;
 	}
 
-	public Boolean getStatus() {
-		return status;
-	}
-
-	public void desativarPessoa() {
-		this.status = false;
-	}
-
-	public void ativarPessoa() {
-		this.status = true;
-	}
 
 	public void setId(Integer id) {
 		this.id = id;

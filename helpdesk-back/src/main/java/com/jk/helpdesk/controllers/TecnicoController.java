@@ -30,17 +30,6 @@ public class TecnicoController {
 		return ResponseEntity.ok().body(service.findAll());
 	}
 
-	@GetMapping("/byStatus")
-	public ResponseEntity<List<TecnicoDTO>> findAllByStatus(@RequestParam("status") String status) {
-		if ("ativos".equals(status)) {
-			return ResponseEntity.ok().body(service.findAllByStatus(true));
-		} else if ("inativos".equals(status)) {
-			return ResponseEntity.ok().body(service.findAllByStatus(false));
-		} else {
-			// Você pode tratar aqui o caso em que o valor do parâmetro é inválido
-			return ResponseEntity.badRequest().build();
-		}
-	}
 	@PreAuthorize("hasAnyRole('ADMIN')")
 	@PostMapping
 	public ResponseEntity<TecnicoDTO> create(@Valid @RequestBody TecnicoDTO dto){

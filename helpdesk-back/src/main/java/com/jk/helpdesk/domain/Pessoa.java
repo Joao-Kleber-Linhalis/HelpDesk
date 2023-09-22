@@ -28,20 +28,6 @@ public abstract class Pessoa implements Serializable {
 	protected String email;
 	protected String senha;
 
-	protected Boolean status = true;
-
-	public Boolean getStatus() {
-		return status;
-	}
-
-	public void desativarPessoa() {
-		this.status = false;
-	}
-
-	public void ativarPessoa() {
-		this.status = true;
-	}
-
 	@ElementCollection(fetch = FetchType.EAGER)
 	@CollectionTable(name = "PERFIS")
 	protected Set<Integer> perfis = new HashSet<>();
