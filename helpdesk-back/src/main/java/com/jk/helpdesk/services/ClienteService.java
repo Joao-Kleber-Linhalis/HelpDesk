@@ -2,7 +2,9 @@ package com.jk.helpdesk.services;
 
 import com.jk.helpdesk.domain.Chamado;
 import com.jk.helpdesk.domain.Cliente;
+import com.jk.helpdesk.domain.Tecnico;
 import com.jk.helpdesk.domain.dto.ClienteDTO;
+import com.jk.helpdesk.domain.dto.TecnicoDTO;
 import com.jk.helpdesk.repositories.ChamadoRepository;
 import com.jk.helpdesk.repositories.ClienteRepository;
 import com.jk.helpdesk.services.exceptions.ObjectNotFoundException;
@@ -50,13 +52,16 @@ public class ClienteService {
 		return new ClienteDTO(repository.save(cliente));
 	}
 
-	public ClienteDTO update(Integer id, ClienteDTO dto) {
-		dto.setId(id);
-		ClienteDTO clienteDTO = findById(id);
-		/*pessoaService.validarCpfeEmail(clienteDTO.getCpf(), clienteDTO.getEmail(), clienteDTO.getId());
-		Cliente cliente = new Cliente(dto);
-		return new ClienteDTO(repository.save(cliente));*/
-		return create(dto);
+	public ClienteDTO update(Integer id, ClienteDTO objDTO) {
+		objDTO.setId(id);
+		Cliente oldObj = new Cliente(findById(id));
+
+		if(!objDTO.getSenha().equals(oldObj.getSenha()))
+			objDTO.setSenha(encoder.encode(objDTO.getSenha()));
+
+		pessoaService.validarCpfeEmail(objDTO.getCpf(), objDTO.getEmail(), objDTO.getId());
+		oldObj = new Cliente(objDTO);
+		return new ClienteDTO(repository.save(oldObj));
 	}
 
 	public void delete(Integer id) {
